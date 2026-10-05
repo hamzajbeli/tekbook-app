@@ -16,11 +16,12 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v4
 
-      - name: Installer Java 21
+      - name: Installer Java 21 (avec cache Maven)
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
+          cache: maven
 
       - name: Compiler le projet
         run: mvn -B package -DskipTests
@@ -43,11 +44,12 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v4
 
-      - name: Installer Java 21
+      - name: Installer Java 21 (avec cache Maven)
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
+          cache: maven
 
       - name: Télécharger le JAR (artifact)
         uses: actions/download-artifact@v4
