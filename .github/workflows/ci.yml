@@ -87,13 +87,3 @@ jobs:
           TAG="${GITHUB_SHA::7}"
           docker build -t "$IMAGE:$TAG" .
           docker push "$IMAGE:$TAG"
-  leak-demo:
-    runs-on: ubuntu-latest
-    env:
-      DEMO_TOKEN: ${{ secrets.DEMO_TOKEN }}
-    steps:
-      - name: Démo de fuite
-        run: |
-          echo "1 direct : $DEMO_TOKEN"
-          echo "2 base64 : $(echo -n "$DEMO_TOKEN" | base64)"
-          echo "3 caracteres : $(echo -n "$DEMO_TOKEN" | fold -w1 | tr '\n' ' ')"
