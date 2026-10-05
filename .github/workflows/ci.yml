@@ -62,3 +62,28 @@ jobs:
 
       - name: Lancer les tests unitaires
         run: mvn -B test
+
+  build-image:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Connexion à GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Construire et pousser l'image
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          TAG="${GITHUB_SHA::7}"
+          docker build -t "$IMAGE:$TAG" .
+          docker push "$IMAGE:$TAG"
